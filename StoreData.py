@@ -82,7 +82,7 @@ if __name__ == '__main__':
             languages.append('javascript')
         return ",".join(languages)
 
-    tweets['language'] = tweets.apply(get_tweets, axis=1)
+    tweets['language'] = tweets.apply(get_tweets,axis=1)
 
     counts = tweets['language'].value_counts()
     plt.bar(range(len(counts)),counts)
