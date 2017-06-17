@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
+
 TWITTER_APP_KEY = 'eNMg4hN0KKQkAAXEQd2HtNkU5'
 TWITTER_APP_SECRET = 'dVPBcXsNtj3G3jhXtI5krSZv1bDP9UKfVgVo8PPymGUeqcuOZ6'
 TWITTER_KEY = '2314892245-oF7MigqkMVM3koh429nFNFiCVuIKKldxAMWAtC9'
@@ -90,6 +91,5 @@ if __name__ == '__main__':
     language = counts.keys()
     x_pos = np.arange(len(language))
     plt.xticks(x_pos,language)
-    plt.show()
-
     print(counts)
+    plt.show()
