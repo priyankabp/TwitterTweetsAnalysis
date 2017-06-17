@@ -63,7 +63,6 @@ if __name__ == '__main__':
     final = csv.writer(open('tweets.csv', 'w'))
     final.writerow(['created_at', 'text'])
     for row in csv.reader(f):
-        print(row)
         final.writerow(row)
 
     tweets = pd.read_csv('tweets.csv', error_bad_lines=False)
@@ -84,7 +83,6 @@ if __name__ == '__main__':
 
     counts = tweets['language'].value_counts()
     del counts['']
-    print(counts.keys())
     plt.bar(range(len(counts)),counts)
     plt.title('Tweets mentioning keywords')
     plt.xlabel('Languages')
