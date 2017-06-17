@@ -2,14 +2,12 @@
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
-import threading
 import logging
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
-import json
 
 TWITTER_APP_KEY = 'eNMg4hN0KKQkAAXEQd2HtNkU5'
 TWITTER_APP_SECRET = 'dVPBcXsNtj3G3jhXtI5krSZv1bDP9UKfVgVo8PPymGUeqcuOZ6'
@@ -68,25 +66,32 @@ if __name__ == '__main__':
         print(row)
         final.writerow(row)
 
-    tweets = pd.read_csv('tweets.csv',error_bad_lines=False)
+    tweets = pd.read_csv('tweets.csv', error_bad_lines=False)
     tweets.head()
 
     def get_tweets(row):
         languages = []
         text = row['text'].lower()
         if 'python' in text:
-            languages.append('python')
+            languages.append('py')
         if 'ruby' in text:
             languages.append('ruby')
         if 'javascript' in text:
-            languages.append('javascript')
+            languages.append('js')
         return ",".join(languages)
 
     tweets['language'] = tweets.apply(get_tweets, axis=1)
 
     counts = tweets['language'].value_counts()
+    del counts['']
+    print(counts.keys())
     plt.bar(range(len(counts)),counts)
+    plt.title('Tweets mentioning keywords')
+    plt.xlabel('Languages')
+    plt.ylabel('# number of tweets')
+    language = counts.keys()
+    x_pos = np.arange(len(language))
+    plt.xticks(x_pos,language)
     plt.show()
 
     print(counts)
-
