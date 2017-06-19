@@ -2,12 +2,14 @@
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+from matplotlib import animation
 import logging
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
+
 
 
 TWITTER_APP_KEY = 'eNMg4hN0KKQkAAXEQd2HtNkU5'
@@ -53,11 +55,10 @@ class TweetsListener(StreamListener):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     # filtering twitter stream to capture data by keywords: 'datascience','python','datamining'
-    keywords = ['python', 'javascript', 'ruby']
+    keywords = ['python', 'javascript', 'java']
     listener = TweetsListener(keywords)
 
-    time.sleep(30)
-    #print(listener.count)
+    time.sleep(60)
     listener.disconnect()
 
     f = open("twitterStreamingData.csv")
@@ -71,21 +72,22 @@ if __name__ == '__main__':
 
     def get_tweets(row):
         languages = []
-        text = row['text'].lower()
-        if 'python' in text:
-            languages.append('py')
-        if 'ruby' in text:
-            languages.append('ruby')
-        if 'javascript' in text:
-            languages.append('js')
-        return ",".join(languages)
+        if type(row['text']) is str:
+            text = row['text'].lower()
+            if 'python' in text:
+                languages.append('py')
+            if 'java' in text:
+                languages.append('java')
+            if 'javascript' in text:
+                languages.append('js')
+            return ",".join(languages)
 
     tweets['language'] = tweets.apply(get_tweets, axis=1)
 
     counts = tweets['language'].value_counts()
     del counts['']
     plt.bar(range(len(counts)),counts)
-    plt.title('Tweets mentioning keywords')
+    plt.title('Programming languages mostly spoken about')
     plt.xlabel('Languages')
     plt.ylabel('# number of tweets')
     language = counts.keys()
